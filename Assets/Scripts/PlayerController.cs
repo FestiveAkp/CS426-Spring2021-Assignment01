@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Transform t;
 
+    public GameObject cannon;
+    public GameObject bullet;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,6 +35,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(t.up * jumpForce);
+        }
+
+        // https://docs.unity3d.com/ScriptReference/Input.html
+        if (Input.GetButtonDown("Fire1"))
+        {
+            GameObject newBullet = GameObject.Instantiate(bullet, cannon.transform.position, cannon.transform.rotation) as GameObject;
+            newBullet.GetComponent<Rigidbody>().velocity += Vector3.up * 2;
+            newBullet.GetComponent<Rigidbody>().AddForce(newBullet.transform.forward * 1500);
         }
     }
 
