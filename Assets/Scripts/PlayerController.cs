@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 60;
     public float jumpForce = 700f;
     public bool isGrounded = true;
+    public bool isRunning = false;
+    public float runningSpeed = 20;
 
     Rigidbody rb;
     Transform t;
@@ -29,8 +31,19 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
         transform.Rotate(0, horizontal, 0);
 
-        float vertical = Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime;
-        transform.Translate(0, 0, vertical);
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isRunning = true;
+            float vertical = Input.GetAxis("Vertical") * runningSpeed * Time.deltaTime;
+            transform.Translate(0, 0, vertical);
+        } 
+        else
+        {
+            float vertical = Input.GetAxis("Vertical") * movementSpeed * Time.deltaTime;
+            isRunning = false;
+            transform.Translate(0, 0, vertical);
+        }
+
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
